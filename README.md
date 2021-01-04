@@ -46,7 +46,7 @@ Things you may want to cover:
 | Colum                         | Type        | Options
 | ------------------------------|-------------|---------------------------------|
 | name                          | string      | null: false                     |
-| info                          | string      | null: false                     |
+| info                          | text        | null: false                     |
 | category_id                   | integer     | null: false                     |
 | sales_status_id               | integer     | null: false                     |
 | shipping_fee_status_id        | integer     | null: false                     |
