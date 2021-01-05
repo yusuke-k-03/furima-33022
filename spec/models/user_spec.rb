@@ -4,18 +4,46 @@ RSpec.describe User, type: :model do
   before do
     @user = FactoryBot.build(:user)
   end
-  
 
-  describe "ユーザー新規登録" do
+  context 'ユーザー新規登録できるとき' do
+    it 'nickname,email,password,password_confirmation,last_name,first_name,last_name_kana,first_name_kana,birth_dateが存在すれば登録できる' do
+      expect(@user).to be_valid
+    end
+
+    it '重複したemailが存在しなければ登録できる' do
+      @user.save
+      another_user = FactoryBot.build(:user)
+      expect(another_user).to be_valid
+    end
+
+    it 'password,password_confirmationが６文字以上かつ半角英数字混合なら登録できる' do
+      @user.password = "test11"
+      @user.password_confirmation = "test11"
+      expect(@user).to be_valid
+    end
+
+    it 'ユーザー本名は名字も名前も空でないかつ全角の漢字・ひらがな・カタカナであれば登録できる' do
+      @user.last_name = "あ亞テスト"
+      @user.first_name = "い伊テスト"
+      expect(@user).to be_valid
+    end
+
+    it 'ユーザー本名のフリガナは名字も名前も空ではないかつ全角のカタカナであれば登録できる' do
+      @user.last_name_kana = "テスト"
+      @user.first_name_kana = "テスト"
+      expect(@user).to be_valid
+    end
+  
+  end
+
+  context 'ユーザー新規登録できない時' do
     it "nicknameが空では登録できない" do
-      # user = FactoryBot.build(:user)
       @user.nickname = ""
       @user.valid?
       expect(@user.errors.full_messages).to include("Nickname can't be blank")
     end
     
     it "メールアドレスが空では登録できない" do
-      # user = FactoryBot.build(:user)
       @user.email = ""
       @user.valid?
       expect(@user.errors.full_messages).to include("Email can't be blank")
@@ -49,11 +77,13 @@ RSpec.describe User, type: :model do
 
     it "passwordは半角英数字混合でなければ登録できない" do
       @user.password = "111111"
+      @user.password_confirmation = "111111"
       @user.valid?
-      expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+      expect(@user.errors.full_messages).to include("Password is invalid")
     end
 
     it "passwordは確認用も含めて、２回入力しないと登録できない" do
+      @user.password = "test11"
       @user.password_confirmation = ""
       @user.valid?
       expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
@@ -111,5 +141,8 @@ RSpec.describe User, type: :model do
     end
 
   end
+
+
+
 
 end
