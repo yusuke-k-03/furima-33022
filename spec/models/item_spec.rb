@@ -11,7 +11,7 @@ RSpec.describe Item, type: :model do
     end
 
     it "金額の範囲が300〜9999999で半角数字の入力された時" do
-      @item.price = "3000"
+      @item.price = 3000
       expect(@item).to be_valid
     end
 
@@ -38,43 +38,43 @@ RSpec.describe Item, type: :model do
     end
 
     it "カテゴリーで「ーー」では出品できない" do
-      @item.category_id = "1"
+      @item.category_id = 1
       @item.valid?
       expect(@item.errors.full_messages).to include("Category must be other than 1")
     end
 
     it "商品の状態で「ーー」では出品できない" do
-      @item.sale_status_id = "1"
+      @item.sale_status_id = 1
       @item.valid?
       expect(@item.errors.full_messages).to include("Sale status must be other than 1")
     end
 
     it "送料負担で「ーー」では出品できない" do
-      @item.shipping_fee_status_id = "1"
+      @item.shipping_fee_status_id = 1
       @item.valid?
       expect(@item.errors.full_messages).to include("Shipping fee status must be other than 1")
     end
 
     it "発送地域で「ーー」では出品できない" do
-      @item.prefecture_id = "1"
+      @item.prefecture_id = 1
       @item.valid?
       expect(@item.errors.full_messages).to include("Prefecture must be other than 1")
     end
 
     it "発送日数が「ーー」では出品できない" do
-      @item.scheduled_delivery_id = "1"
+      @item.scheduled_delivery_id = 1
       @item.valid?
       expect(@item.errors.full_messages).to include("Scheduled delivery must be other than 1")
     end
 
     it "価格が300円未満だと出品できない" do
-      @item.price = "299"
+      @item.price = 299
       @item.valid?
       expect(@item.errors.full_messages).to include("Price must be greater than or equal to 300")
     end
 
     it "価格が9,999,999より高いと出品できない" do
-      @item.price = "10000000"
+      @item.price = 10000000
       @item.valid?
       expect(@item.errors.full_messages).to include("Price must be less than or equal to 9999999")
     end
