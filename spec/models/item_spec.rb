@@ -67,6 +67,12 @@ RSpec.describe Item, type: :model do
       expect(@item.errors.full_messages).to include("Scheduled delivery must be other than 1")
     end
 
+    it "価格が空では出品できない" do
+      @item.price = nil
+      @item.valid?
+      expect(@item.errors.full_messages).to include("Price can't be blank")
+    end
+
     it "価格が300円未満だと出品できない" do
       @item.price = 299
       @item.valid?
