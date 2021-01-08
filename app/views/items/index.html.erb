@@ -183,6 +183,7 @@
 
   <%# /商品一覧 %>
 </div>
+<%#この記述では問題ということでしょうか？？%>
 <% if user_signed_in? %>
    <%= link_to(new_item_path, class: 'purchase-btn') do %>
      <span class='purchase-btn-text'>出品する</span>
@@ -194,4 +195,5 @@
      <%= image_tag 'icon_camera.png' , size: '185x50' ,class: "purchase-btn-icon" %>
    <% end %>
 <%end%>
+<%#この記述では問題いうことでしょうか？？%>
 <%= render "shared/footer" %>
