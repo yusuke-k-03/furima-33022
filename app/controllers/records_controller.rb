@@ -4,12 +4,15 @@ class RecordsController < ApplicationController
 
     
   def new
-    unless @item.user_id == current_user.id
-      @record_order = RecordOrder.new
-    else
-      redirect_to root_path
-    end
-
+    if @item.record == nil
+       unless @item.user_id == current_user.id 
+         @record_order = RecordOrder.new
+       else
+         redirect_to root_path
+       end
+      else
+        redirect_to root_path
+      end
   end
 
 
@@ -36,7 +39,7 @@ class RecordsController < ApplicationController
   end
 
   def pay_item
-    Payjp.api_key = ENV["PAYJP_SECRET_KEY"] 
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
     Payjp::Charge.create(
       amount: @item.price, 
       card: render_params[:token],   
