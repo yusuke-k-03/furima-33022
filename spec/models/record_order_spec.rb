@@ -6,7 +6,7 @@ RSpec.describe RecordOrder, type: :model do
   end
 
   context "購入可能な時" do
-    it "郵便番号、都道府県、市区町村、番地、電話番号がある時" do 
+    it "クレジット情報、郵便番号、都道府県、市区町村、番地、電話番号がある時" do 
       expect(@record_order).to be_valid
     end
 
@@ -77,6 +77,12 @@ RSpec.describe RecordOrder, type: :model do
       expect(@record_order.errors.full_messages).to include("Phone number is invalid")
     end
 
+    it "クレジット情報が空の時" do
+      @record_order.token = nil
+      @record_order.valid?
+      expect(@record_order.errors.full_messages).to include("Token can't be blank")
+    end
+       
   end
 
 end
