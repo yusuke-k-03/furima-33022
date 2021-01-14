@@ -14,9 +14,10 @@ class RecordsController < ApplicationController
 
 
   def create
-
+    
     @record_order = RecordOrder.new(render_params)
     if @record_order.valid?
+       pay_item
       @record_order.save
       redirect_to root_path
     else
@@ -27,11 +28,20 @@ class RecordsController < ApplicationController
   private
 
   def render_params
-    params.permit(:user_id, :item_id, :postal_code, :prefecture_id, :city, :addresses, :building, :phone_number, :record_id).merge(user_id: current_user.id)
+    params.require(:record_order).permit(:postal_code, :prefecture_id, :city, :addresses, :building, :phone_number, :record_id).merge(item_id: params[:item_id], user_id: current_user.id, token: params[:token])
   end
 
   def set_record
     @item = Item.find(params[:item_id])
+  end
+
+  def pay_item
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"] 
+    Payjp::Charge.create(
+      amount: @item.price, 
+      card: render_params[:token],   
+      currency: 'jpy'          
+    )
   end
 
 

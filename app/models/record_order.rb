@@ -1,7 +1,7 @@
 class RecordOrder
 
   include ActiveModel::Model
-  attr_accessor :user_id, :item_id, :postal_code, :prefecture_id, :city, :building, :addresses, :phone_number, :record_id
+  attr_accessor :user_id, :item_id, :postal_code, :prefecture_id, :city, :building, :addresses, :phone_number, :record_id, :token
   
   validates :prefecture_id, numericality: { other_than: 1 }
 
@@ -12,6 +12,7 @@ class RecordOrder
     validates :city
     validates :addresses
     validates :phone_number, format: {with: /\A\d{10,11}\z/}
+    validates :token
   end
 
   def save
