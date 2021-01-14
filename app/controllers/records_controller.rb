@@ -1,10 +1,9 @@
 class RecordsController < ApplicationController
-
+  before_action :authenticate_user!
   before_action :set_record, only: [:new, :create]
 
     
   def new
-    if user_signed_in?
       if @item.record == nil
          unless @item.user_id == current_user.id 
            @record_order = RecordOrder.new
@@ -14,9 +13,6 @@ class RecordsController < ApplicationController
       else
         redirect_to root_path
       end
-    else
-      redirect_to new_user_session_path
-    end
   end
 
 

@@ -15,6 +15,11 @@ RSpec.describe RecordOrder, type: :model do
       expect(@record_order).to be_valid
     end
 
+    it "建物名が空欄でも可能" do
+      @record_order.building = ""
+      expect(@record_order).to be_valid
+    end
+
     it "電話番号が11桁以内である時" do
       @record_order.phone_number = "12345678901"
       expect(@record_order).to be_valid
@@ -81,6 +86,18 @@ RSpec.describe RecordOrder, type: :model do
       @record_order.token = nil
       @record_order.valid?
       expect(@record_order.errors.full_messages).to include("Token can't be blank")
+    end
+
+    it "ユーザー情報がないと購入できない" do
+      @record_order.user_id = nil
+      @record_order.valid?
+      expect(@record_order.errors.full_messages).to include("User can't be blank")
+    end
+
+    it "商品情報がないと購入できない" do
+      @record_order.item_id = nil
+      @record_order.valid?
+      expect(@record_order.errors.full_messages).to include("Item can't be blank")
     end
        
   end
