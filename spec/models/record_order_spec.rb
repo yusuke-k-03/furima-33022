@@ -2,7 +2,10 @@ require 'rails_helper'
 
 RSpec.describe RecordOrder, type: :model do
   before do
-    @record_order = FactoryBot.build(:record_order)
+    @user = FactoryBot.create(:user)
+    @item = FactoryBot.create(:item)
+    @record_order = FactoryBot.build(:record_order, user_id: @user.id, item_id: @item.id)
+    sleep(0.5)
   end
 
   context '購入可能な時' do
